@@ -3,14 +3,12 @@ const router = express.Router();
 
 const labsController = require('../controllers/labsController');
 
-router.get('/', labsController.getAllLabs);
+router.route('/').get(labsController.getAllLabs).post(labsController.createLab);
 
-router.get('/:id', labsController.getLab);
-
-router.post('/', labsController.createLab);
-
-router.put('/:id', labsController.updateLab);
-
-router.delete('/:id', labsController.deleteLab);
+router
+	.route('/:id')
+	.get(labsController.getLab)
+	.put(labsController.updateLab)
+	.delete(labsController.deleteLab);
 
 module.exports = router;
