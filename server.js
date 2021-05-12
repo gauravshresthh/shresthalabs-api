@@ -1,11 +1,17 @@
 const express = require('express');
 const dotenv = require('dotenv');
 
+const morgan = require('morgan');
+
 dotenv.config();
 
 const app = express();
 
 const labsRouter = require('./routes/labsRouter');
+
+if (process.env.NODE_ENV === 'development') {
+	app.use(morgan('dev'));
+}
 
 app.use('/api/v1/labs', labsRouter);
 
