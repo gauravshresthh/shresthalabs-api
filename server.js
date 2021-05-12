@@ -1,11 +1,11 @@
 const express = require('express');
 const dotenv = require('dotenv');
-
-const morgan = require('morgan');
-
 dotenv.config();
-
+const morgan = require('morgan');
+const connectDB = require('./db');
 const app = express();
+
+connectDB();
 
 const labsRouter = require('./routes/labsRouter');
 
@@ -21,6 +21,11 @@ app.use('/', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
 	console.log(`Server listening in ${process.env.NODE_ENV} on PORT ${PORT}`);
+});
+
+process.on('unhandledRejection', (err, promise) => {
+	console.log(`Error:${err.message}`);
+	server.close(() => process.exit(1));
 });
