@@ -82,4 +82,9 @@ const LabsSchema = new mongoose.Schema({
 	},
 });
 
+LabsSchema.pre('save', function () {
+	this.slug = slugify(this.name, { lower: true });
+	next();
+});
+
 module.exports = mongoose.model('Labs', LabsSchema);
