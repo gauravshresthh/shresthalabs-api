@@ -4,6 +4,10 @@ dotenv.config();
 const morgan = require('morgan');
 const connectDB = require('./db');
 const app = express();
+const errorHandler = require('./middlewares/errorHandler');
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 connectDB();
 
@@ -18,6 +22,8 @@ app.use('/api/v1/labs', labsRouter);
 app.use('/', (req, res) => {
 	return res.json({ success: true, message: 'welcome to hashlabs api' });
 });
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
